@@ -1,0 +1,212 @@
+<mvc:View
+	controllerName="com.gangel.employees.employees.controller.CreateEmployee"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:upload="sap.m.upload"
+	>
+
+	<Page id="_IDGenPage" title="{i18n>createEmployee}">
+		<content>
+		<NavContainer id="wizardNavContainer">
+				<pages>
+					<Page id="wizzardContentPage">
+						<Wizard id="CreateEmployeeWizard"  class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+								complete="wizardCompletedHandler">
+							<WizardStep id="employeeTypeStep"
+										title="{i18n>employeeType}"
+										validated="false">
+								<MessageStrip class="sapUiSmallMarginBottom"
+										text="{i18n>mesgtep1}"
+										showIcon="true"/>
+								
+								<HBox
+										alignItems="Center"
+										justifyContent="Center"
+										width="100%">
+											<Button	text="{i18n>intern}"
+																	press="goToStep2">
+												<customData>
+													<core:CustomData
+														key="employeeType"
+														value="intern"/>
+												</customData>
+																	
+											</Button>						
+											<Button 	text="{i18n>selfEmployed}"
+																	press="goToStep2">	
+												<customData>
+													<core:CustomData
+														key="employeeType"
+														value="self employed"/>
+												</customData>																	
+											</Button>																	
+											<Button 	text="{i18n>manager}"
+																	press="goToStep2">
+													<customData>
+													<core:CustomData
+														key="employeeType"
+														value="manager"/>
+												</customData>
+											</Button>	
+								</HBox>
+							</WizardStep>
+							<WizardStep id="employeeDetailStep"
+										validated="false"
+										title="{i18n>employeeDetails}"
+										>
+								<MessageStrip class="sapUiSmallMarginBottom"
+										text="{i18n>mesgtep2}"
+										showIcon="true"/>
+								
+								<form:SimpleForm
+										editable="true"
+										layout="ResponsiveGridLayout">
+									<Label text="{i18n>name}" required="true"/>
+									<Input 
+											valueState="{/NameState}"  change="employeeDetailsValidation"
+											value="{/Name}"/>
+									<Label text="{i18n>surname}" required="true"/>
+									<Input 
+											valueState="{/SurnameState}" 
+											change="employeeDetailsValidation"  
+											value="{/Surname}"/>
+									<Label text="{= ${/Type} === '1' ? ${i18n>cif} : ${i18n>dni}}" required="true"/>
+									<Input value="{/Dni}" valueState="{/DniState}" change="validateDni"></Input>
+									
+									<Label text="{= ${/Type} === '1' ? ${i18n>dailyRate} : ${i18n>netSalary}}"/>
+												<VBox>
+													<Slider value="{/_Salary}"
+														min="12000" 
+														max="80000"
+														step="1000" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														 width="100%" progress="false" class="sapUiSmallMarginBottom" 
+														 visible="{=  ${/Type} === '0'}">
+														<ResponsiveScale tickmarksBetweenLabels="100"/>
+													</Slider>
+													<Slider value="{/_Salary}"
+														min="100" 
+														max="2000"
+														step="100" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														 width="100%" progress="false" class="sapUiSmallMarginBottom"
+														 visible="{=  ${/Type} === '1'}">
+														<ResponsiveScale tickmarksBetweenLabels="100"/>
+													</Slider>
+													<Slider value="{/_Salary}"
+														min="50000" 
+														max="200000"
+														step="1000" inputsAsTooltips="true" showAdvancedTooltip="true" enableTickmarks="true"
+														 width="100%" progress="false" class="sapUiSmallMarginBottom"
+														 visible="{=  ${/Type} === '2'}">
+														<ResponsiveScale tickmarksBetweenLabels="100"/>
+													</Slider>
+												</VBox>
+												<Label text="{i18n>startDate}" required="true"></Label>
+												<DatePicker dateValue="{/CreationDate}" valueState="{/CreationDateState}" change="employeeDetailsValidation"></DatePicker>
+											
+								</form:SimpleForm>
+							</WizardStep>
+							<WizardStep id="aditionalInfoStep"
+										optional="true"
+										title="{i18n>aditionalInfo}"
+										>
+								<MessageStrip class="sapUiSmallMarginBottom"
+										text="{i18n>mesgtep3}"
+										showIcon="true"/>
+							
+							<Label text="{i18n>comments}" width="100%"/>
+								<TextArea
+									value="{/comments}" width="100%"/>
+
+							<UploadCollection
+													id="UploadCollection"
+													maximumFilenameLength="55"
+													maximumFileSize="10"
+													multiple="false"
+													uploadUrl="/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+													instantUpload="false"
+													change="onChange"
+													beforeUploadStarts="onBeforeUploadStarts"
+													noDataDescription="{i18n>dragFiles}" 
+													uploadComplete="onUploadComplete"/>
+
+
+							<!-- <upload:UploadSet id="upload"
+                                            uploadUrl="/sap/opu/odata/sap/YSAPUI5_SRV_01/FilesSet"
+                                            beforeUploadStarts="onBeforeUploadStarts"
+                                            uploadCompleted="onUploadCompleted"
+                                            afterItemRemoved="onAfterRemoved"
+                                            mode="None"/> -->
+									
+							</WizardStep>
+						</Wizard>
+						<footer>
+						<OverflowToolbar>
+							<ToolbarSpacer/>
+							<Button text="Cancel" press="handleWizardCancel"/>
+						</OverflowToolbar>
+						</footer>
+
+					</Page>
+					<Page id="wizardReviewPage" showHeader="false">
+					<content>
+						<form:SimpleForm
+								title="1.{i18n>employeeType}"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="Type"/>
+								<Text id="EmployeeTypeChosen" text="{/_type}"/>
+								<Link press="editStepOne" text="{i18n>edit}" />
+							</form:content>
+						</form:SimpleForm>
+
+						<form:SimpleForm
+								title="2.{i18n>employeeDetails}"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="Nam{i18n>name}"/>
+								<Text id="EmployeeNameChosen" text="{/Name}"/>
+								<Label text="{i18n>name}"/>
+								<Text id="EmployeeSurnameChosen" text="{/Surname}"/>
+								<Label text="{= ${/Type} === '1' ? ${i18n>cif} : ${i18n>dni}}"/>
+								<Text id="DniChosen" text="{/Dni}"/>
+								<Label text="{= ${/Type} === '1' ? ${i18n>dailyRate} : ${i18n>netSalary}}"/>
+								<Text id="SalaryChosen" text="{/_Salary}"/>
+								<Link press="editStepTwo" text="{i18n>edit}"/>
+							</form:content>
+						</form:SimpleForm>
+
+						<form:SimpleForm
+								title="3.{i18n>aditionalInfo}"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="{i18n>comments}"/>
+								<Text text="{/comments}"/>
+								<Label text="{i18n>attachments}"/>
+								<Text text="{/filesNo} {i18n>files}"/>
+								<List items="{/files}">
+									<items>
+										<StandardListItem title="{DocName}"></StandardListItem>
+									</items>
+								</List>
+								<Link press="editStepThree" text="{i18n>edit}" />
+							</form:content>
+						</form:SimpleForm>
+					</content>
+							<footer>
+							<Toolbar>
+								<ToolbarSpacer/>
+								<Button text="{i18n>submit}" press="handleWizardSubmit"/>
+								<Button text="{i18n>cancel}" press="handleWizardCancel"/>
+							</Toolbar>
+							</footer>					
+					</Page>
+				</pages>
+			</NavContainer>
+		</content>
+	</Page>
+</mvc:View>

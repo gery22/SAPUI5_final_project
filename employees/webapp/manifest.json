@@ -1,0 +1,148 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "com.gangel.employees.employees",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.3",
+            "toolsId": "6e616248-9bd3-4b93-9962-8c75be9caa0e"
+        },
+        "dataSources": {
+            "ZEMPLOYEES_SRV": {
+                "uri": "/sap/opu/odata/sap/ZEMPLOYEES_SRV",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.127.7",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.gangel.employees.employees.i18n.i18n"
+                }
+            },
+            "zemployees": {
+                "preload": true,
+                "dataSource": "ZEMPLOYEES_SRV",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "com.gangel.employees.employees.view",
+                "async": true,
+                "viewPath": "com.gangel.employees.employees.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": "",
+                    "target": [
+                        "TargetMain"
+                    ]
+                },
+                {
+                    "name": "CreateEmployee",
+                    "pattern": "CreateEmployee",
+                    "target": [
+                        "CreateEmployee"
+                    ]
+                },
+                {
+                    "name": "ViewEmployee",
+                    "pattern": "ViewEmployee",
+                    "target": [
+                        "ViewEmployee"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetMain": {
+                    "id": "Main",
+                    "name": "Main"
+                },
+                "CreateEmployee": {
+                    "viewType": "XML",
+                    "viewName": "CreateEmployee",
+                    "viewId": "CreateEmployee",
+                    "transition": "slide",
+                    "clearControlAggregation": true
+                },
+                "ViewEmployee": {
+                    "viewType": "XML",
+                    "viewName": "ViewEmployee",
+                    "viewId": "ViewEmployee",
+                    "transition": "slide",
+                    "clearControlAggregation": true
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "com.gangel.employees.employees.view.App",
+            "type": "XML",
+            "id": "App"
+        }
+    }
+}

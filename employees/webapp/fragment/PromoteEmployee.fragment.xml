@@ -1,0 +1,69 @@
+<c:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+>
+<Dialog title="{i18n>promoteEmployee}"
+		>
+
+	<content>
+		<f:Form
+			editable="true">
+			<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="4"
+						labelSpanL="3"
+						labelSpanM="4"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="0"
+						emptySpanL="4"
+						emptySpanM="0"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer
+					expandable="false"
+					expanded="true"
+					visible="true"
+				>
+					<f:formElements>
+						<f:FormElement label="{i18n>salary}">
+							<f:fields>
+								<Input value="{promoteEmployee>/Salary}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>date}">
+							<f:fields>
+								<DatePicker dateValue="{promoteEmployee>/CreationDate}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="{i18n>comments}">
+							<f:fields>
+								<TextArea value="{promoteEmployee>/Comments}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</content>
+	<buttons>
+		<Button	text="{i18n>submit}"
+			    press="onSubmitPromote"/>
+		<Button	text="{i18n>cancel}"
+			    press="onCancelPromote"/>
+		
+	</buttons>
+
+
+
+</Dialog>
+
+
+
+</c:FragmentDefinition>

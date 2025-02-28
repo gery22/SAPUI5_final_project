@@ -1,0 +1,157 @@
+<mvc:View xmlns:upload="sap.m.upload"
+	controllerName="com.gangel.employees.employees.controller.ViewEmployee"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout"
+	xmlns:suite="sap.suite.ui.commons"
+>
+
+<Page title="Gangel Empire" >
+	<SplitApp 	
+				id="idSplitApp">
+		<masterPages>
+			<Page showHeader="false"
+					>
+			<Toolbar class="sapUiTinyMarginTop">
+					<Button icon="sap-icon://nav-back" press="onPressBack"></Button>
+					<SearchField liveChange="onSearchEmployee" width="100%" />
+			</Toolbar>
+			<List
+				id="list"
+				itemPress="onEmployeeSelect"
+				headerText="Employees"
+				items="{path:'zemployees>/Users', filters:[{path:'SapId',operator:'EQ',value1:'gangel@gangelmail.com'}]}">
+				<items>
+					<StandardListItem	title="{zemployees>FirstName} {zemployees>LastName}"
+										description="{zemployees>EmployeeId}"
+										type="Active"/>
+				</items>
+			</List>
+			
+			</Page>
+		</masterPages>
+		<detailPages>
+			<Page id="detailSelectEmployee" showHeader="false">
+				<FlexBox alignItems="Center" justifyContent="Center" height="100%">
+					<Text text="{i18n>selectEmployee}"></Text>
+				</FlexBox>
+			</Page>
+			<Page id="employeeDetails" showHeader="false">
+				<ObjectHeader 	id="employeeHeader"
+							title="{zemployees>FirstName} {zemployees>LastName}"
+							icon="{= ${zemployees>Type}==='0' ? 'sap-icon://employee-pane' : ${zemployees>Type}==='1' ? 'sap-icon://employee' : 'sap-icon://leads' }"		>
+				<statuses>
+					<ObjectStatus
+						state="Error"
+						text="{i18n>comments}: {zemployees>Comments}"
+					/>
+				</statuses>
+				<ObjectAttribute title="{i18n>startDate}: " text="{zemployees>CreationDate}" />
+				<ObjectAttribute title="{i18n>employeeType}: " text="{= ${zemployees>Type}==='0' ? ${i18n>intern} : ${zemployees>Type} === '1' ? ${i18n>selfEmployed} : ${i18n>manager}}" />
+				<ObjectAttribute text="{zemployees>dni}" />
+			</ObjectHeader>
+			<IconTabBar 
+						applyContentPadding="true"
+						upperCase="true"
+						>
+				<items>
+					<IconTabFilter
+						text="{i18n>attachments}"
+						design="Horizontal"
+						icon="sap-icon://attachment"
+						iconColor="Positive"
+						iconDensityAware="true"
+						showAll="false"
+						visible="true"
+					>
+					<upload:UploadSet
+				id="UploadSet"
+				showIcons="true"
+				uploadUrl="/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+				items="{zemployees>UserToAttachment}"
+				mode="SingleSelect"
+				
+				beforeUploadStarts="onBeforeUploadStarts"
+				afterItemRemoved="onAfterItemRemoved"
+				afterItemAdded = "onAfterItemAdded">
+			
+
+			<upload:toolbar>
+				<OverflowToolbar>
+					<ToolbarSpacer/>
+					
+					<Button
+							id="OpenSelectedButton"
+							text="Open selected"
+							press="onOpenFile"/>
+					
+					<upload:UploadSetToolbarPlaceholder />
+				</OverflowToolbar>
+			</upload:toolbar>
+			<upload:items>
+				<upload:UploadSetItem
+						fileName="{zemployees>DocName}"
+						enabledEdit="false"
+				>
+
+				</upload:UploadSetItem>
+			</upload:items>
+		</upload:UploadSet>
+						
+							
+					</IconTabFilter>
+					<IconTabFilter
+							icon="sap-icon://money-bills"
+							iconColor="Positive"
+							design="Horizontal"
+							text="{i18n>history}">
+							<suite:Timeline
+								id="idTimeline"
+								enableDoubleSided="true"
+								groupByType="Year"
+								groupBy="CreationDate"
+								showHeaderBar="false"
+								enableScroll="false"
+								height="100%"
+								sortOldestFirst="true"
+								content="{zemployees>UserToSalary}">
+								<suite:content>
+									<suite:TimelineItem
+										userName="{parts:[{path:'zemployees>Amount'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"
+										icon="sap-icon://circle-task"
+										text="{zemployees>Comments}"
+										dateTime="{zemployees>CreationDate}">
+									</suite:TimelineItem>
+								</suite:content>
+							</suite:Timeline>
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+			</Page>
+		</detailPages>
+	</SplitApp>
+	<footer>
+		<Toolbar>
+			<ToolbarSpacer/>
+			<Button text="{i18n>terminate}" press="onTerminate"/>
+			<Button text="{i18n>promote}" press="onPromote"/>
+		</Toolbar>
+		</footer>		
+
+
+
+
+
+</Page>
+
+</mvc:View>
+
+	
+				
+
+
+
+
