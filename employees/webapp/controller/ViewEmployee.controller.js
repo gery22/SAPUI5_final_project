@@ -149,7 +149,7 @@ sap.ui.define([
 			}
 
 			var sPath = aSelectedItems[0].getBindingContext("zemployees").getPath();
-			window.open("/comgangelemployeesemployee/sap/opu/odata/sap/ZEMPLOYEES_SRV" + sPath + "/$value");
+			window.open("/comgangelemployeesemployees/sap/opu/odata/sap/ZEMPLOYEES_SRV" + sPath + "/$value");
 		},
 		/**
 		 * Formatter for employee icon based on employee type.

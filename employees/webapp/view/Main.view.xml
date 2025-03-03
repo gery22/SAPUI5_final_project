@@ -1,21 +1,29 @@
-<mvc:View controllerName="com.gangel.employees.employees.controller.Main"
+<mvc:View
+    controllerName="com.gangel.employees.employees.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="mainpage" title="{i18n>title}">
-    <content>
-        <Panel headerText="{i18n>employees}" >
-            <GenericTile headerImage="sap-icon://add-employee"
-                         press="navToCreate">
-            </GenericTile>
-            <GenericTile headerImage="sap-icon://employee-lookup"
-                         press="navToViewEmployee">
-            </GenericTile>
-        </Panel>
-        <Panel headerText="{i18n>orders}">
-            <GenericTile headerImage="sap-icon://signature"
-                         press="navToSignature">
-            </GenericTile>           
-        </Panel>
-    </content>  
+    xmlns="sap.m"
+>
+    <Page
+        id="mainpage"
+        title="{i18n>title}"
+    >
+        <content>
+            <Panel headerText="{i18n>employees}">
+                <GenericTile
+                    headerImage="sap-icon://add-employee"
+                    press="navToCreate"
+                />
+                <GenericTile
+                    headerImage="sap-icon://employee-lookup"
+                    press="navToViewEmployee"
+                />
+            </Panel>
+            <Panel headerText="{i18n>orders}">
+                <GenericTile
+                    headerImage="sap-icon://signature"
+                    press="navToSignature"
+                />
+            </Panel>
+        </content>
     </Page>
 </mvc:View>

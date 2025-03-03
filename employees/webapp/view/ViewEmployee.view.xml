@@ -5,15 +5,21 @@
 	xmlns:core="sap.ui.core"
 	xmlns:layout="sap.ui.layout"
 	xmlns:suite="sap.suite.ui.commons"
-	xmlns:upload="sap.m.upload">
-
+	xmlns:upload="sap.m.upload"
+>
 	<Page title="Gangel Empire">
 		<SplitApp id="idSplitApp">
 			<masterPages>
 				<Page showHeader="false">
 					<Toolbar class="sapUiTinyMarginTop">
-						<Button icon="sap-icon://nav-back" press="onPressBack" />
-						<SearchField liveChange="onSearchEmployee" width="100%" />
+						<Button
+							icon="sap-icon://nav-back"
+							press="onPressBack"
+						/>
+						<SearchField
+							liveChange="onSearchEmployee"
+							width="100%"
+						/>
 					</Toolbar>
 					<List
 						id="list"
@@ -21,55 +27,74 @@
 						headerText="Employees"
 						items="{
 							path: 'zemployees>/Users',
-							filters: [
-								{ path: 'SapId', operator: 'EQ', value1: 'gangel@gangelmail.com' }
-							]
-						}">
+							filters: [{
+								path: 'SapId',
+								operator: 'EQ',
+								value1: 'gangel@gangelmail.com'
+							}]
+						}"
+					>
 						<items>
 							<StandardListItem
 								title="{zemployees>FirstName} {zemployees>LastName}"
 								description="{zemployees>EmployeeId}"
-								type="Active" />
+								type="Active"
+							/>
 						</items>
 					</List>
 				</Page>
 			</masterPages>
-
 			<detailPages>
-				<Page id="detailSelectEmployee" showHeader="false">
-					<FlexBox alignItems="Center" justifyContent="Center" height="100%">
+				<Page
+					id="detailSelectEmployee"
+					showHeader="false"
+				>
+					<FlexBox
+						alignItems="Center"
+						justifyContent="Center"
+						height="100%"
+					>
 						<Text text="{i18n>selectEmployee}" />
 					</FlexBox>
 				</Page>
-
-				<Page id="employeeDetails" showHeader="false">
+				<Page
+					id="employeeDetails"
+					showHeader="false"
+				>
 					<ObjectHeader
 						id="employeeHeader"
 						title="{zemployees>FirstName} {zemployees>LastName}"
 						icon="{
 							path: 'zemployees>Type',
 							formatter: '.formatEmployeeIcon'
-						}">
+						}"
+					>
 						<statuses>
 							<ObjectStatus
 								state="Error"
-								text="{i18n>comments}: {zemployees>Comments}" />
+								text="{i18n>comments}: {zemployees>Comments}"
+							/>
 						</statuses>
-						<ObjectAttribute title="{i18n>startDate}: " 
-										 text="{
-										path: 'zemployees>CreationDate',
-										formatter: '.formatDate'
-									}" />
+						<ObjectAttribute
+							title="{i18n>startDate}: "
+							text="{
+								path: 'zemployees>CreationDate',
+								formatter: '.formatDate'
+							}"
+						/>
 						<ObjectAttribute
 							title="{i18n>employeeType} "
 							text="{
 								path: 'zemployees>Type',
 								formatter: '.formatEmployeeType'
-							}" />
+							}"
+						/>
 						<ObjectAttribute text="{zemployees>dni}" />
 					</ObjectHeader>
-
-					<IconTabBar applyContentPadding="true" upperCase="true">
+					<IconTabBar
+						applyContentPadding="true"
+						upperCase="true"
+					>
 						<items>
 							<IconTabFilter
 								text="{i18n>attachments}"
@@ -78,39 +103,43 @@
 								iconColor="Positive"
 								iconDensityAware="true"
 								showAll="false"
-								visible="true">
+								visible="true"
+							>
 								<upload:UploadSet
 									id="UploadSet"
 									showIcons="true"
-									uploadUrl="/comgangelemployeesemployee/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
 									items="{zemployees>UserToAttachment}"
 									mode="SingleSelect"
 									beforeUploadStarts="onBeforeUploadStarts"
 									afterItemRemoved="onAfterItemRemoved"
-									afterItemAdded="onAfterItemAdded">
+									afterItemAdded="onAfterItemAdded"
+									uploadUrl="/comgangelemployeesemployees/sap/opu/odata/sap/ZEMPLOYEES_SRV/Attachments"
+								>
 									<upload:toolbar>
 										<OverflowToolbar>
 											<ToolbarSpacer />
 											<Button
 												id="OpenSelectedButton"
 												text="Open selected"
-												press="onOpenFile" />
+												press="onOpenFile"
+											/>
 											<upload:UploadSetToolbarPlaceholder />
 										</OverflowToolbar>
 									</upload:toolbar>
 									<upload:items>
 										<upload:UploadSetItem
 											fileName="{zemployees>DocName}"
-											enabledEdit="false" />
+											enabledEdit="false"
+										/>
 									</upload:items>
 								</upload:UploadSet>
 							</IconTabFilter>
-
 							<IconTabFilter
 								icon="sap-icon://money-bills"
 								iconColor="Positive"
 								design="Horizontal"
-								text="{i18n>history}">
+								text="{i18n>history}"
+							>
 								<suite:Timeline
 									id="idTimeline"
 									enableDoubleSided="true"
@@ -120,17 +149,21 @@
 									enableScroll="false"
 									height="100%"
 									sortOldestFirst="true"
-									content="{zemployees>UserToSalary}">
+									content="{zemployees>UserToSalary}"
+								>
 									<suite:content>
 										<suite:TimelineItem
 											userName="{
 												path: 'zemployees>Amount',
 												type: 'sap.ui.model.type.Currency',
-												formatOptions: { showMeasure: false }
+												formatOptions: {
+													showMeasure: false
+												}
 											}"
 											icon="sap-icon://circle-task"
 											text="{zemployees>Comments}"
-											dateTime="{zemployees>CreationDate}" />
+											dateTime="{zemployees>CreationDate}"
+										/>
 									</suite:content>
 								</suite:Timeline>
 							</IconTabFilter>
@@ -139,12 +172,17 @@
 				</Page>
 			</detailPages>
 		</SplitApp>
-
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer />
-				<Button text="{i18n>terminate}" press="onTerminate" />
-				<Button text="{i18n>promote}" press="onPromote" />
+				<Button
+					text="{i18n>terminate}"
+					press="onTerminate"
+				/>
+				<Button
+					text="{i18n>promote}"
+					press="onPromote"
+				/>
 			</Toolbar>
 		</footer>
 	</Page>
